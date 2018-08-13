@@ -24,7 +24,7 @@ configuration file in `preseed/antarctica-centos7/ks.cfg`.
 1. VMware ESXi [1] - images are produced as [OVA](https://en.wikipedia.org/wiki/Open_Virtualization_Format) files ready 
    for [Deployment](#deployment)
 
-[1] (specifically the development cluster at BAS Cambridge managed through vCentre)
+[1] Specifically the development cluster at BAS Cambridge managed through vCentre
 
 ### Customisations
 
@@ -80,7 +80,7 @@ The root user credentials are set to intentionally insecure defaults to ensure t
 [Provisioning](#provisioning).
 
 **Note:** Ideally the root user should not be able to login remotely, and should not be used directly. Instead per-user
-accounts should be used and granted sudo rights.
+accounts granted sudo rights should be used.
 
 ## Usage
 
@@ -129,18 +129,17 @@ To build images for a [template](#supported-operating-systems) run:
 packer build -var 'release_version=[version]' `definitions/[template].json
 ```
 
-E.g.
+The `release_version` variable should be set to the date of building, in the form `YYYY-MM-DD`. E.g.
 
 ```
 packer build -var 'release_version=2001-01-20' `definitions/antarctica-centos7.json
 ```
 
-The `release_version` variable should be set to the date of building, in the form `YYYY-MM-DD`. E.g. `2001-01-20`.
-
 Packer will build base images for each supported [Provider](#supported-providers) in parallel. It will apply any
 [Customisations](#customisations) relevant to each template/provider and prepare it for [Deployment](#deployment).
 
-The first time you build a template it will take longer as Packer needs to download the installation ISO for the OS.
+**Note:** The first time you build a template it will take longer as Packer needs to download the installation ISO for 
+the OS.
 
 ## Deployment
 
@@ -161,7 +160,7 @@ To create a virtual machine from an OVF/OVA file:
 2. navigate to the relevant resource pool
 3. from *ACTIONS* choose *Deploy OVF template*
 4. ...
-5. name the virtual machine in the form `base-[template]-[template-version]` e.g. `base-antarctica/centos7-1.2.3`)
+5. name the virtual machine in the form `base-[template]-[template-version]` e.g. `base-antarctica/centos7-2001-01-20`)
 6. choose a suitable location (you will likely not have permission to deploy directly to the cluster)
 7. choose a compute resource (this is almost always the same as the location)
 8. VMware will check the template and display it's details
@@ -226,8 +225,8 @@ Scripts use the Bash interpreter with the `#!/usr/bin/env bash -eux` shebang to 
 
 ## Issue tracking
 
-This project uses [issue tracking]() to manage development of new
-features/improvements and reporting bugs.
+This project uses [issue tracking](https://gitlab.data.bas.ac.uk/WSF/bas-base-images/issues) to manage development of 
+new features/improvements and reporting bugs.
 
 ## Feedback
 
