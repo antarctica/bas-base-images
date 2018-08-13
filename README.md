@@ -175,13 +175,13 @@ users:
 To build images for a [template](#supported-operating-systems) run:
 
 ```
-packer build -var 'release_version=[version]' `definitions/[template].json
+packer build -var 'release_version=[version]' definitions/[template].json
 ```
 
 The `release_version` variable should be set to the date of building, in the form `YYYY-MM-DD`. E.g.
 
 ```
-packer build -var 'release_version=2001-01-20' `definitions/antarctica-centos7.json
+packer build -var 'release_version=2001-01-20' definitions/antarctica-centos7.json
 ```
 
 Packer will build base images for each supported [Provider](#supported-providers) in parallel. It will apply any
