@@ -121,6 +121,55 @@ To aid in provisioning, information about the template used for a virtual machin
 
 These facts report the name and version of the template used.
 
+#### Bootstrap playbook
+
+An Ansible playbook is available to secure a newly created VM by restricting the root user and creating individual 
+accounts. 
+
+**Note:** This playbook only needs to be ran once per VM, and only for non-cloud providers.
+
+To use with Docker and Docker Compose:
+
+1. copy the `usage/ansible/bootstrap` directory to a temporary location
+2. `cd usage/ansible/bootstrap`
+3. set `ansible_host` in `inventory.yml` to the IP address of the VM
+4. set `hostname` in `host_vars/host.yml` to the intended VM hostname
+5. populate the `users` dictionary as per [1] per user
+6. `docker-compose run ansible`
+7. `ansible-playbook -i inventory.yml site.yml`
+8. exit and remove the Ansible container and `bootstrap` directory
+
+[1]
+
+| Option               | Data Type        | Description                               | Notes                                    |
+| -------------------- | ---------------- | ----------------------------------------- | ---------------------------------------- |
+| `name`               | String           | username of user                          | By convention - NUREM username           |
+| `gecos`              | String           | descriptive name                          | By convention - 'Firstname Lastname'     |
+| `groups`             | Array of Strings | List of groups user should be a member of | Groups must already exist                |
+| `shell`              | String           | Shell for user                            | By convention - '/bin/bash'              |
+| `ssh_authorized_key` | String           | Public key                                | By convention with user email as comment |
+
+Conventional groups:
+
+| Group   | Group Name | Description                                                      |
+| 
+| `adm`   | Admin      | Default owner of some log files and other system level files     |
+| `wheel` | Wheel      | System operators group, granted unrestricted, passwordless, sudo |
+
+Example:
+
+```yaml
+users:
+  - 
+    name: conwat
+    gecos: Connie Watson
+    groups:
+      - adm
+      - wheel
+    shell: /bin/bash
+    ssh_authorized_key: "ssh-rsa AAAAB...x conwat@bas.ac.uk"
+```
+
 ## Setup
 
 To build images for a [template](#supported-operating-systems) run:
