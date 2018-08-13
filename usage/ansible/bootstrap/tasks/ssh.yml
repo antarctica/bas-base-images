@@ -1,0 +1,15 @@
+---
+
+- name: disable empty password logins through SSH
+  lineinfile: 
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^#?PermitEmptyPasswords" 
+    line: "PermitEmptyPasswords no"
+  notify: restart sshd
+
+- name: disable password logins through SSH
+  lineinfile: 
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+  notify: restart sshd

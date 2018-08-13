@@ -55,6 +55,8 @@
       "scripts": [
         "provisioning/scripts/centos/common/update.sh",
         "provisioning/scripts/common/common/sshd.sh",
+        "provisioning/scripts/centos/common/sudoers.sh",
+        "provisioning/scripts/common/common/sudoers.sh",
         "provisioning/scripts/common/common/metadata.sh"
       ],
       "type": "shell"

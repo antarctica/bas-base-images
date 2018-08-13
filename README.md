@@ -36,24 +36,24 @@ with a specific provider.
 
 | Template             | Since Version | Category | Customisation                      | Description                                           |
 | -------------------- | ------------- | -------- | ---------------------------------- | ----------------------------------------------------- |
-| `antarctica/centos7` | x.x.x         | System   | Swap file removed                  | Will be recreated for each template instance          |
-| `antarctica/centos7` | x.x.x         | System   | Network interfaces removed         | Bento recommendation                                  |
-| `antarctica/centos7` | x.x.x         | Security | SELinux disabled                   | As per BAS default, see [Security](#security)         |
-| `antarctica/centos7` | x.x.x         | Security | Firewall disabled                  | As per BAS default, see [Security](#security)         |
-| `antarctica/centos7` | x.x.x         | SSH      | `UseDNS` set to `no`               | Bento recommendation                                  |
-| `antarctica/centos7` | x.x.x         | SSH      | `GSSAPIAuthentication` set to `no` | Bento recommendation                                  |
-| `antarctica/centos7` | x.x.x         | SSH      | Host keys removed                  | To force new keys for each template instance          |
-| `antarctica/centos7` | x.x.x         | Sudo     | Passwordless sudo enabled          | To allow automated provisioning                       |
-| `antarctica/centos7` | x.x.x         | Sudo     | SSH Agent allowed using Sudo       | Normally blocked by env reset                         |
-| `antarctica/centos7` | x.x.x         | Locale   | Language set to `en_GB_UTF-8`      | As per regional default                               |
-| `antarctica/centos7` | x.x.x         | Locale   | Keyboard layout set to `uk`        | As per regional default                               |
-| `antarctica/centos7` | x.x.x         | Locale   | Timezone set to `UTC`              | As per BAS default                                    |
-| `antarctica/centos7` | x.x.x         | Users    | Root user password                 | Conventional default, see [Security](#security)       |
-| `antarctica/centos7` | x.x.x         | Users    | Root user authorized key           | Conventional default, see [Security](#security)       |
-| `antarctica/centos7` | x.x.x         | Packages | Yum upgrade                        | Updates all OS packages to latest versions            |
-| `antarctica/centos7` | x.x.x         | Packages | Yum clean                          | Package information, caches are removed               |
-| `antarctica/centos7` | x.x.x         | Packages | `sudo`, `wget` installed           | Required for installation                             |
-| `antarctica/centos7` | x.x.x         | Usage    | Ansible facts                      | For provisioning, see [Ansible facts](#ansible-facts) |
+| `antarctica/centos7` | `2018-08-10`  | System   | Swap file removed                  | Will be recreated for each template instance          |
+| `antarctica/centos7` | `2018-08-10`  | System   | Network interfaces removed         | Bento recommendation                                  |
+| `antarctica/centos7` | `2018-08-10`  | Security | SELinux disabled                   | As per BAS default, see [Security](#security)         |
+| `antarctica/centos7` | `2018-08-10`  | Security | Firewall disabled                  | As per BAS default, see [Security](#security)         |
+| `antarctica/centos7` | `2018-08-10`  | SSH      | `UseDNS` set to `no`               | Bento recommendation                                  |
+| `antarctica/centos7` | `2018-08-10`  | SSH      | `GSSAPIAuthentication` set to `no` | Bento recommendation                                  |
+| `antarctica/centos7` | `2018-08-10`  | SSH      | Host keys removed                  | To force new keys for each template instance          |
+| `antarctica/centos7` | `2018-08-10`  | Sudo     | Passwordless sudo enabled          | To allow automated provisioning                       |
+| `antarctica/centos7` | `2018-08-10`  | Sudo     | SSH Agent allowed using Sudo       | Normally blocked by env reset                         |
+| `antarctica/centos7` | `2018-08-10`  | Locale   | Language set to `en_GB_UTF-8`      | As per regional default                               |
+| `antarctica/centos7` | `2018-08-10`  | Locale   | Keyboard layout set to `uk`        | As per regional default                               |
+| `antarctica/centos7` | `2018-08-10`  | Locale   | Timezone set to `UTC`              | As per BAS default                                    |
+| `antarctica/centos7` | `2018-08-10`  | Users    | Root user password                 | Conventional default, see [Security](#security)       |
+| `antarctica/centos7` | `2018-08-10`  | Users    | Root user authorized key           | Conventional default, see [Security](#security)       |
+| `antarctica/centos7` | `2018-08-10`  | Packages | Yum upgrade                        | Updates all OS packages to latest versions            |
+| `antarctica/centos7` | `2018-08-10`  | Packages | Yum clean                          | Package information, caches are removed               |
+| `antarctica/centos7` | `2018-08-10`  | Packages | `sudo`, `wget` installed           | Required for installation                             |
+| `antarctica/centos7` | `2018-08-10`  | Usage    | Ansible facts                      | For provisioning, see [Ansible facts](#ansible-facts) |
 
 ### Security
 
@@ -121,18 +121,67 @@ To aid in provisioning, information about the template used for a virtual machin
 
 These facts report the name and version of the template used.
 
+#### Bootstrap playbook
+
+An Ansible playbook is available to secure a newly created VM by restricting the root user and creating individual 
+accounts. 
+
+**Note:** This playbook only needs to be ran once per VM, and only for non-cloud providers.
+
+To use with Docker and Docker Compose:
+
+1. copy the `usage/ansible/bootstrap` directory to a temporary location
+2. `cd usage/ansible/bootstrap`
+3. set `ansible_host` in `inventory.yml` to the IP address of the VM
+4. set `hostname` in `host_vars/host.yml` to the intended VM hostname
+5. populate the `users` dictionary as per [1] per user
+6. `docker-compose run ansible`
+7. `ansible-playbook -i inventory.yml site.yml`
+8. exit and remove the Ansible container and `bootstrap` directory
+
+[1]
+
+| Option               | Data Type        | Description                               | Notes                                    |
+| -------------------- | ---------------- | ----------------------------------------- | ---------------------------------------- |
+| `name`               | String           | username of user                          | By convention - NUREM username           |
+| `gecos`              | String           | descriptive name                          | By convention - 'Firstname Lastname'     |
+| `groups`             | Array of Strings | List of groups user should be a member of | Groups must already exist                |
+| `shell`              | String           | Shell for user                            | By convention - '/bin/bash'              |
+| `ssh_authorized_key` | String           | Public key                                | By convention with user email as comment |
+
+Conventional groups:
+
+| Group   | Group Name | Description                                                      |
+| 
+| `adm`   | Admin      | Default owner of some log files and other system level files     |
+| `wheel` | Wheel      | System operators group, granted unrestricted, passwordless, sudo |
+
+Example:
+
+```yaml
+users:
+  - 
+    name: conwat
+    gecos: Connie Watson
+    groups:
+      - adm
+      - wheel
+    shell: /bin/bash
+    ssh_authorized_key: "ssh-rsa AAAAB...x conwat@bas.ac.uk"
+```
+
 ## Setup
 
 To build images for a [template](#supported-operating-systems) run:
 
 ```
-packer build -var 'release_version=[version]' `definitions/[template].json
+packer build -var 'release_version=[version]' definitions/[template].json
 ```
 
 The `release_version` variable should be set to the date of building, in the form `YYYY-MM-DD`. E.g.
 
 ```
-packer build -var 'release_version=2001-01-20' `definitions/antarctica-centos7.json
+packer build -var 'release_version=2001-01-20' definitions/antarctica-centos7.json
 ```
 
 Packer will build base images for each supported [Provider](#supported-providers) in parallel. It will apply any

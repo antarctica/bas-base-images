@@ -1,0 +1,17 @@
+---
+
+- name: setup users
+  user:
+    name: "{{ item.name }}"
+    comment: "{{ item.gecos }}"
+    groups: "{{ item.groups | default(omit) }}"
+    shell: "{{ item.shell }}"
+    state: present
+  loop: "{{ users }}"
+
+- name: setup users authorized keys
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.ssh_authorized_key }}"
+    state: present
+  loop: "{{ users }}"

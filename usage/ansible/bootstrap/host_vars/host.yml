@@ -1,0 +1,6 @@
+---
+
+hostname: scratch-felnne3
+hostname_fqdn: "{{ hostname }}.nerc-bas.ac.uk"
+
+users: []
