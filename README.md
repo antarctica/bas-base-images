@@ -36,24 +36,24 @@ with a specific provider.
 
 | Template             | Since Version | Category | Customisation                      | Description                                           |
 | -------------------- | ------------- | -------- | ---------------------------------- | ----------------------------------------------------- |
-| `antarctica/centos7` | x.x.x         | System   | Swap file removed                  | Will be recreated for each template instance          |
-| `antarctica/centos7` | x.x.x         | System   | Network interfaces removed         | Bento recommendation                                  |
-| `antarctica/centos7` | x.x.x         | Security | SELinux disabled                   | As per BAS default, see [Security](#security)         |
-| `antarctica/centos7` | x.x.x         | Security | Firewall disabled                  | As per BAS default, see [Security](#security)         |
-| `antarctica/centos7` | x.x.x         | SSH      | `UseDNS` set to `no`               | Bento recommendation                                  |
-| `antarctica/centos7` | x.x.x         | SSH      | `GSSAPIAuthentication` set to `no` | Bento recommendation                                  |
-| `antarctica/centos7` | x.x.x         | SSH      | Host keys removed                  | To force new keys for each template instance          |
-| `antarctica/centos7` | x.x.x         | Sudo     | Passwordless sudo enabled          | To allow automated provisioning                       |
-| `antarctica/centos7` | x.x.x         | Sudo     | SSH Agent allowed using Sudo       | Normally blocked by env reset                         |
-| `antarctica/centos7` | x.x.x         | Locale   | Language set to `en_GB_UTF-8`      | As per regional default                               |
-| `antarctica/centos7` | x.x.x         | Locale   | Keyboard layout set to `uk`        | As per regional default                               |
-| `antarctica/centos7` | x.x.x         | Locale   | Timezone set to `UTC`              | As per BAS default                                    |
-| `antarctica/centos7` | x.x.x         | Users    | Root user password                 | Conventional default, see [Security](#security)       |
-| `antarctica/centos7` | x.x.x         | Users    | Root user authorized key           | Conventional default, see [Security](#security)       |
-| `antarctica/centos7` | x.x.x         | Packages | Yum upgrade                        | Updates all OS packages to latest versions            |
-| `antarctica/centos7` | x.x.x         | Packages | Yum clean                          | Package information, caches are removed               |
-| `antarctica/centos7` | x.x.x         | Packages | `sudo`, `wget` installed           | Required for installation                             |
-| `antarctica/centos7` | x.x.x         | Usage    | Ansible facts                      | For provisioning, see [Ansible facts](#ansible-facts) |
+| `antarctica/centos7` | `2018-08-10`  | System   | Swap file removed                  | Will be recreated for each template instance          |
+| `antarctica/centos7` | `2018-08-10`  | System   | Network interfaces removed         | Bento recommendation                                  |
+| `antarctica/centos7` | `2018-08-10`  | Security | SELinux disabled                   | As per BAS default, see [Security](#security)         |
+| `antarctica/centos7` | `2018-08-10`  | Security | Firewall disabled                  | As per BAS default, see [Security](#security)         |
+| `antarctica/centos7` | `2018-08-10`  | SSH      | `UseDNS` set to `no`               | Bento recommendation                                  |
+| `antarctica/centos7` | `2018-08-10`  | SSH      | `GSSAPIAuthentication` set to `no` | Bento recommendation                                  |
+| `antarctica/centos7` | `2018-08-10`  | SSH      | Host keys removed                  | To force new keys for each template instance          |
+| `antarctica/centos7` | `2018-08-10`  | Sudo     | Passwordless sudo enabled          | To allow automated provisioning                       |
+| `antarctica/centos7` | `2018-08-10`  | Sudo     | SSH Agent allowed using Sudo       | Normally blocked by env reset                         |
+| `antarctica/centos7` | `2018-08-10`  | Locale   | Language set to `en_GB_UTF-8`      | As per regional default                               |
+| `antarctica/centos7` | `2018-08-10`  | Locale   | Keyboard layout set to `uk`        | As per regional default                               |
+| `antarctica/centos7` | `2018-08-10`  | Locale   | Timezone set to `UTC`              | As per BAS default                                    |
+| `antarctica/centos7` | `2018-08-10`  | Users    | Root user password                 | Conventional default, see [Security](#security)       |
+| `antarctica/centos7` | `2018-08-10`  | Users    | Root user authorized key           | Conventional default, see [Security](#security)       |
+| `antarctica/centos7` | `2018-08-10`  | Packages | Yum upgrade                        | Updates all OS packages to latest versions            |
+| `antarctica/centos7` | `2018-08-10`  | Packages | Yum clean                          | Package information, caches are removed               |
+| `antarctica/centos7` | `2018-08-10`  | Packages | `sudo`, `wget` installed           | Required for installation                             |
+| `antarctica/centos7` | `2018-08-10`  | Usage    | Ansible facts                      | For provisioning, see [Ansible facts](#ansible-facts) |
 
 ### Security
 
