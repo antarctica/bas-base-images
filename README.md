@@ -129,6 +129,18 @@ To aid in provisioning, information about the template used for a virtual machin
 
 These facts report the name and version of the template used.
 
+An example playbook for reporting these facts is available in `usage/ansible/ansible-facts` To use with Docker and 
+Docker Compose:
+
+1. copy the `usage/ansible/ansible-facts` directory to a temporary location
+2. `cd usage/ansible/ansible-facts`
+3. set `ansible_host` in `inventory.yml` to the hostname of a VM
+4. check your public key is allowed to access the VM and amend the volume for `/root/.ssh/id_rsa` in 
+   `docker-compose.yml`
+5. `docker-compose run ansible`
+6. `ansible-playbook -i inventory.yml -u [username] site.yml`
+7. exit and remove the Ansible container and `ansible-facts` directory
+
 #### Bootstrap playbook
 
 An Ansible playbook is available to secure a newly created VM by restricting the root user and creating individual 

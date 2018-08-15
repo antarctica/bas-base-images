@@ -1,0 +1,6 @@
+---
+
+all:
+  hosts: 
+    host:
+      ansible_host: host.nerc-bas.ac.uk
