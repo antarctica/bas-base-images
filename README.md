@@ -9,7 +9,6 @@ creating virtual machine base images for use at BAS.
 
 Each OS uses a separate Packer template/definition to create images for all [Supported providers](#supported-providers).
 
-
 1. `antarctica/centos7` - Vanilla CentOS 7 (x86_64)
 
 #### `antarctica-centos7`
@@ -152,11 +151,11 @@ To use with Docker and Docker Compose:
 Conventional groups:
 
 | Group   | Group Name | Description                                                      |
-| 
+| ------- | ---------- | ---------------------------------------------------------------- |
 | `adm`   | Admin      | Default owner of some log files and other system level files     |
 | `wheel` | Wheel      | System operators group, granted unrestricted, passwordless, sudo |
 
-Example:
+For example:
 
 ```yaml
 users:
