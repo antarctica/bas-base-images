@@ -1,0 +1,12 @@
+---
+version: "2"
+
+services:
+  ansible:
+    image: williamyeh/ansible:alpine3
+    working_dir: /usr/src/app
+    entrypoint: ash
+    volumes:
+      - .:/usr/src/app
+      - ./ansible.cfg:/etc/ansible/ansible.cfg
+      - ~/.ssh/id_rsa:/root/.ssh/id_rsa
