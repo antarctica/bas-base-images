@@ -9,7 +9,6 @@ creating virtual machine base images for use at BAS.
 
 Each OS uses a separate Packer template/definition to create images for all [Supported providers](#supported-providers).
 
-
 1. `antarctica/centos7` - Vanilla CentOS 7 (x86_64)
 
 #### `antarctica-centos7`
@@ -104,6 +103,15 @@ If not see the [Deployment](#deployment) section for more information.
 
 [2] The BAS vCentre instance currently uses a self-signed TLS certificate.
 
+### Checksums
+
+Where an image results in a file artefact, such as an OVA file, a checksum is generated to allow users to verify it 
+hasn't been corrupted or modified outside of this project.
+
+| Template            | Template Version | SHA 256 Checksum                                                   |
+| ------------------- | ---------------- | ------------------------------------------------------------------ |
+| `antarctica/trusty` | `2018-08-10`     | `5ec748ca961f021e6f7f8e8c383d9df1d2ad7796a254fe6001e31e49271ec089` |
+
 ## Provisioning
 
 This section relates to provisioning instances of these templates, rather than provisioning used to build templates.
@@ -152,11 +160,11 @@ To use with Docker and Docker Compose:
 Conventional groups:
 
 | Group   | Group Name | Description                                                      |
-| 
+| ------- | ---------- | ---------------------------------------------------------------- |
 | `adm`   | Admin      | Default owner of some log files and other system level files     |
 | `wheel` | Wheel      | System operators group, granted unrestricted, passwordless, sudo |
 
-Example:
+For example:
 
 ```yaml
 users:
@@ -187,7 +195,10 @@ packer build -var 'release_version=2001-01-20' definitions/antarctica-centos7.js
 Packer will build base images for each supported [Provider](#supported-providers) in parallel. It will apply any
 [Customisations](#customisations) relevant to each template/provider and prepare it for [Deployment](#deployment).
 
-**Note:** The first time you build a template it will take longer as Packer needs to download the installation ISO for 
+For each artefact produced, a SHA 256 checksum will be generated alongside the file. This should be added to the 
+[Checksums](#checksums) section to allow users to verify the artefact hasn't been corrupted or modified.
+
+**Note:** It will take longer the first time you build a template as Packer needs to download the installation ISO for 
 the OS.
 
 ## Deployment

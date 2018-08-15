@@ -10,4 +10,6 @@ tar cf "../../${INPUT}-vmware-iso.ova" *.ovf *.mf *.vmdk;
 cd ../../../..;
 
 ovftool --schemaValidate "artefacts/ovas/${INPUT}-vmware-iso.ova";
+openssl dgst -sha256 "artefacts/ovas/${INPUT}-vmware-iso.ova" | cut -d ' ' -f 2 > "artefacts/ovas/${INPUT}-vmware-iso.ova.checksum.txt";
+
 rm -rf "artefacts/ovas/${INPUT}-vmware-iso";
