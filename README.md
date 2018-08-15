@@ -129,6 +129,18 @@ To aid in provisioning, information about the template used for a virtual machin
 
 These facts report the name and version of the template used.
 
+For example:
+
+```
+ok: [host] => {
+    "msg": {
+        "name": "antarctica/centos7",
+        "name_alt": "antarctica-centos7",
+        "version": "2018-08-10"
+    }
+}
+```
+
 An example playbook for reporting these facts is available in `usage/ansible/ansible-facts` To use with Docker and 
 Docker Compose:
 
