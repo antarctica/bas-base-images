@@ -1,0 +1,17 @@
+---
+
+stages:
+  - lint
+
+variables:
+  APP_NAME: bas-base-images
+
+# == Jobs ==
+
+lint-definitions:
+  stage: lint
+  image:
+    name: hashicorp/packer
+    entrypoint: [""]
+  script:
+    - "packer validate definitions/antarctica-centos7.json"

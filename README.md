@@ -307,6 +307,14 @@ Scripts use the Bash interpreter with the `#!/usr/bin/env bash -eux` shebang to 
 * `u` - forces an exit if an undefined variable is used
 * `x` - echoes each command before exiting it, rather than only displaying any output
 
+## Testing
+
+### Continuous Integration
+
+All commits will trigger a Continuous Integration process using GitLab's CI/CD platform, configured in `.gitlab-ci.yml`.
+
+This process will validate Packer definitions.
+
 ## Issue tracking
 
 This project uses [issue tracking](https://gitlab.data.bas.ac.uk/WSF/bas-base-images/issues) to manage development of 
