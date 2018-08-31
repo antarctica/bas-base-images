@@ -15,7 +15,8 @@ Each OS uses a separate Packer template/definition to create images for all [Sup
 
 Default distribution used at BAS. This template should be used by default.
 
-[Customisations](#customisations) for the `VMware ESXi` provider image for this template are based on a [Kickstart](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/chap-kickstart-installations) 
+[Customisations](#customisations) for the `VMware ESXi` provider image for this template are based on a 
+[Kickstart](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/chap-kickstart-installations) 
 configuration file in `preseed/antarctica-centos7/ks.cfg`.
 
 ### Supported providers

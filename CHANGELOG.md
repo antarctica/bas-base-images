@@ -8,3 +8,4 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Added
 
 * GitLab CI pipeline to validate Packer definitions
+* Restarting project with a customised version of the Bento CentOS 7 desktop image
