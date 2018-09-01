@@ -14,4 +14,4 @@ lint-definitions:
     name: hashicorp/packer
     entrypoint: [""]
   script:
-    - "packer validate definitions/antarctica-centos7.json"
+    - "packer validate templates/antarctica-centos7.json"
