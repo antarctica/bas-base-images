@@ -27,6 +27,16 @@
         "numvcpus": "{{ user `cpus` }}"
       },
       "vmx_remove_ethernet_interfaces": true
+    },
+    {
+      "image": "{{ user `do_image` }}",
+      "monitoring": true,
+      "private_networking": true,
+      "region": "{{ user `do_region` }}",
+      "size": "{{ user `do_size` }}",
+      "snapshot_name": "{{user `artefact_alt`}}-{{isotime \"2006-01-02\"}}",
+      "ssh_username": "root",
+      "type": "digitalocean"
     }
   ],
   "post-processors": [
@@ -34,6 +44,7 @@
       "environment_vars": [
         "INPUT={{user `artefact_alt`}}"
       ],
+      "only": ["vmware-iso"],
       "scripts": [
         "artefacts/scripts/common/desktop/vmware-ova.sh"
       ],
@@ -48,7 +59,7 @@
         "no_proxy={{user `no_proxy`}}",
         "TEMPLATE_NAME={{user `artefact`}}",
         "TEMPLATE_NAME_ALT={{user `artefact_alt`}}",
-        "TEMPLATE_VERSION={{user `release_version`}}"
+        "TEMPLATE_VERSION={{isotime \"2006-01-02\"}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
@@ -77,6 +88,16 @@
       "type": "shell"
     },
     {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "expect_disconnect": true,
+      "only": ["digitalocean"],
+      "scripts": [
+        "provisioning/scripts/centos/cloud/locale.sh",
+        "provisioning/scripts/centos/cloud/selinux.sh"
+      ],
+      "type": "shell"
+    },
+    {
       "environment_vars": [
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
@@ -96,6 +117,9 @@
     "artefact_alt": "antarctica-centos7",
     "cpus": "1",
     "disk_size": "65536",
+    "do_image": "centos-7-x64",
+    "do_region": "lon1",
+    "do_size": "s-1vcpu-1gb",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
