@@ -1,0 +1,13 @@
+---
+
+version: "2"
+
+services:
+  packer:
+    image: hashicorp/packer
+    working_dir: /usr/src/app
+    entrypoint: ash
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - DIGITALOCEAN_API_TOKEN=$DIGITALOCEAN_TOKEN
