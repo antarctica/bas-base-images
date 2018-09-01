@@ -31,6 +31,7 @@ suitable for each supported provider. These artefacts can be used to create inst
 | Provider     | Type    | Artefact Type                                                        |
 | ------------ | ------- | -------------------------------------------------------------------- |
 | VMware ESXi  | Desktop | [OVA](https://en.wikipedia.org/wiki/Open_Virtualization_Format) file |
+| DigitalOcean | Cloud   | [DigitalOcean Image](https://www.digitalocean.com/docs/images/)      |
 
 ### Customisations
 
@@ -107,6 +108,13 @@ resource pool. If not see the [Deployment](#deployment) section for more informa
 
 [2] The BAS vCentre instance currently uses a self-signed TLS certificate.
 
+### DigitalOcean (usage)
+
+**Note:** It is assumed a DigitalOcean image/snapshot for the Packer template you wish to use has already been created 
+in the relevant DigitalOcean region. If not see the [Deployment](#deployment) section for more information.
+
+See the [BAS DigitalOcean](https://gitlab.data.bas.ac.uk/WSF/bas-do) project for how to provision resources using 
+artefacts from this project.
 
 ### Artefact Checksums
 
@@ -124,9 +132,18 @@ This section describes how to use instances of artefacts built from this project
 
 See the [Root user](#root-user) section for initial access credentials.
 
+**Note:** These credentials should only be used with 'desktop' providers. Cloud providers should use 
+[Cloud Config](#cloud-config).
 
+#### Cloud Config
 
+[Cloud Config](https://cloudinit.readthedocs.io/en/latest/index.html) is used to configure instances of artefacts for 
+cloud providers. It uses a configuration file to define users, packages and other settings as the instance is created
+by the cloud provider.
 
+See the relevant provider project for more information:
+
+* [BAS DigitalOcean](https://gitlab.data.bas.ac.uk/WSF/bas-do)
 
 #### Ansible
 
@@ -158,7 +175,8 @@ secure instances created from these template artefacts.
 It creates a set of individual user accounts, with authorised public keys, and disables the 
 [initial access credentials](#root-user). It only needs to be ran once per instance.
 
-**Note:** This playbook only needs to be ran once per VM, and only for non-cloud providers.
+**Note:** This playbook should only be used with 'desktop' providers. Cloud providers should use 
+[Cloud Config](#cloud-config) to perform these tasks.
 
 To use with Docker and Docker Compose:
 
