@@ -5,70 +5,79 @@ creating virtual machine base images for use at BAS.
 
 ## Overview
 
-### Supported operating systems
+### Supported distributions
 
-Each OS uses a separate Packer template/definition to create images for all [Supported providers](#supported-providers).
+Each supported distribution is defined by a Packer template. It describes how to create artefacts for each 
+[Supported provider](#supported-providers) applying any relevant [Customisations](#customisations).
 
-1. `antarctica/centos7` - Vanilla CentOS 7 (x86_64)
+| Template                                  | Distribution | Version | Architecture |
+| ----------------------------------------- | ------------ | ------- | ------------ |
+| [antarctica-centos7](#antarctica-centos7) | CentOS       | 7.x     | *x86_64*     |
 
-#### `antarctica-centos7`
+#### antarctica-centos7
 
-Default distribution used at BAS. This template should be used by default.
+The default distribution used at BAS.
 
-[Customisations](#customisations) for the `VMware ESXi` provider image for this template are based on a 
+Many of the [Customisations](#customisations) relevant to the artefact produced for the *VMware ESXi* provider are
+applied using a
 [Kickstart](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/chap-kickstart-installations) 
 configuration file in `preseed/antarctica-centos7/ks.cfg`.
 
 ### Supported providers
 
-1. VMware ESXi [1] - images are produced as [OVA](https://en.wikipedia.org/wiki/Open_Virtualization_Format) files ready 
-   for [Deployment](#deployment)
+Each Packer template, for each [Supported distribution](#supported-distributions), describes how to produce an artefact
+suitable for each supported provider. These artefacts can be used to create instances of a template with each provider.
 
-[1] Specifically the development cluster at BAS Cambridge managed through vCentre
+| Provider     | Type    | Artefact Type                                                        |
+| ------------ | ------- | -------------------------------------------------------------------- |
+| VMware ESXi  | Desktop | [OVA](https://en.wikipedia.org/wiki/Open_Virtualization_Format) file |
 
 ### Customisations
 
-Various customisations have been applied to each [supported OS](#supported-operating-systems) to make them suitable for
-use at BAS.
+Various customisations are applied when building artefacts for each template to make them suitable for use at BAS. 
+Customisations may be applied globally or to combinations of specific [Distributions](#supported-distributions) or 
+[Providers](#supported-providers).
 
-Some of these customisations are only applied to specific operating systems, or specific operating systems when used 
-with a specific provider.
+Each customisation applies from a template 'version', which represents the date at which the customisation was applied.
+Typically customisations are made in groups and thus share a version.
 
-| Template             | Since Version | Category | Customisation                      | Description                                           |
-| -------------------- | ------------- | -------- | ---------------------------------- | ----------------------------------------------------- |
-| `antarctica/centos7` | `2018-08-10`  | System   | Swap file removed                  | Will be recreated for each template instance          |
-| `antarctica/centos7` | `2018-08-10`  | System   | Network interfaces removed         | Bento recommendation                                  |
-| `antarctica/centos7` | `2018-08-10`  | Security | SELinux disabled                   | As per BAS default, see [Security](#security)         |
-| `antarctica/centos7` | `2018-08-10`  | Security | Firewall disabled                  | As per BAS default, see [Security](#security)         |
-| `antarctica/centos7` | `2018-08-10`  | SSH      | `UseDNS` set to `no`               | Bento recommendation                                  |
-| `antarctica/centos7` | `2018-08-10`  | SSH      | `GSSAPIAuthentication` set to `no` | Bento recommendation                                  |
-| `antarctica/centos7` | `2018-08-10`  | SSH      | Host keys removed                  | To force new keys for each template instance          |
-| `antarctica/centos7` | `2018-08-10`  | Sudo     | Passwordless sudo enabled          | To allow automated provisioning                       |
-| `antarctica/centos7` | `2018-08-10`  | Sudo     | SSH Agent allowed using Sudo       | Normally blocked by env reset                         |
-| `antarctica/centos7` | `2018-08-10`  | Locale   | Language set to `en_GB_UTF-8`      | As per regional default                               |
-| `antarctica/centos7` | `2018-08-10`  | Locale   | Keyboard layout set to `uk`        | As per regional default                               |
-| `antarctica/centos7` | `2018-08-10`  | Locale   | Timezone set to `UTC`              | As per BAS default                                    |
-| `antarctica/centos7` | `2018-08-10`  | Users    | Root user password                 | Conventional default, see [Security](#security)       |
-| `antarctica/centos7` | `2018-08-10`  | Users    | Root user authorized key           | Conventional default, see [Security](#security)       |
-| `antarctica/centos7` | `2018-08-10`  | Packages | Yum upgrade                        | Updates all OS packages to latest versions            |
-| `antarctica/centos7` | `2018-08-10`  | Packages | Yum clean                          | Package information, caches are removed               |
-| `antarctica/centos7` | `2018-08-10`  | Packages | `sudo`, `wget` installed           | Required for installation                             |
-| `antarctica/centos7` | `2018-08-10`  | Usage    | Ansible facts                      | For provisioning, see [Ansible facts](#ansible-facts) |
+| Template           | Since Version | Category | Customisation                      | Rational                                                          |
+| ------------------ | ------------- | -------- | ---------------------------------- | ----------------------------------------------------------------- |
+| antarctica-centos7 | *2018-08-10*  | System   | Swap file removed                  | Swap will be recreated for each instance if needed                |
+| antarctica/centos7 | *2018-08-10*  | System   | Network interfaces removed         | From Bento project                                                |
+| antarctica/centos7 | *2018-08-10*  | Security | SELinux disabled                   | BAS convention, see [Security](#security)                         |
+| antarctica/centos7 | *2018-08-10*  | Security | Firewall disabled                  | BAS convention, see [Security](#security)                         |
+| antarctica/centos7 | *2018-08-10*  | SSH      | `UseDNS` set to `no`               | From Bento project                                                |
+| antarctica/centos7 | *2018-08-10*  | SSH      | `GSSAPIAuthentication` set to `no` | From Bento project                                                |
+| antarctica/centos7 | *2018-08-10*  | SSH      | Host keys removed                  | Keys will be recreated for each instance                          |
+| antarctica/centos7 | *2018-08-10*  | Sudo     | Passwordless sudo enabled          | To allow for automated provisioning                               |
+| antarctica/centos7 | *2018-08-10*  | Sudo     | SSH Agent allowed using Sudo       | To allow connecting through other hosts using private keys        |
+| antarctica/centos7 | *2018-08-10*  | Locale   | Language set to `en_GB_UTF-8`      | Regional default                                                  |
+| antarctica/centos7 | *2018-08-10*  | Locale   | Keyboard layout set to `uk`        | Regional default                                                  |
+| antarctica/centos7 | *2018-08-10*  | Locale   | Timezone set to `UTC`              | Regional default and BAS convention                               |
+| antarctica/centos7 | *2018-08-10*  | Users    | Root user password                 | To allow for automated provisioning, see [Security](#security)    |
+| antarctica/centos7 | *2018-08-10*  | Users    | Root user authorized key           | To allow for automated provisioning, see [Security](#security)    |
+| antarctica/centos7 | *2018-08-10*  | Packages | Yum upgrade                        | To update all OS packages to latest versions                      |
+| antarctica/centos7 | *2018-08-10*  | Packages | Yum clean                          | To reduce size of artefacts removing unnecessary files and caches |
+| antarctica/centos7 | *2018-08-10*  | Packages | `sudo`, `wget` installed           | Required for installation                                         |
+| antarctica/centos7 | *2018-08-10*  | Usage    | Ansible facts                      | For automated provisioning, see [Ansible facts](#ansible-facts)   |
 
 ### Security
 
-You **MUST** ensure when using these images that a appropriate level of security is in place for the data and services 
-involved.
-
-If in doubt contact [BAS IT](mailto:servicedesk@bas.ac.uk) for advice.
+You **MUST** ensure that a appropriate level of security is in place for any data stored in, and services ran on, any 
+use of these templates. If in doubt contact [BAS IT](mailto:servicedesk@bas.ac.uk) for advice.
 
 ### Security features
 
 By convention, the OS level firewall and security features such as SELinux are disabled on VMs running in BAS Cambridge.
+
 For compatibility, this project follows these conventions, which may present a security risk if used outside of BAS
 Cambridge (i.e. with a cloud provider).
 
 ### Root user
+
+Root user credentials are intentionally set to insecure defaults to ensure they are changed as part of instance 
+[Provisioning](#provisioning).
 
 | Credential  | Value                                                                                         |
 | ----------- | --------------------------------------------------------------------------------------------- |
@@ -76,18 +85,12 @@ Cambridge (i.e. with a cloud provider).
 | Password    | `password`                                                                                    |
 | Private key | [Vagrant insecure private key](https://github.com/hashicorp/vagrant/blob/master/keys/vagrant) |
 
-The root user credentials are set to intentionally insecure defaults to ensure they are changed as part of instance 
-[Provisioning](#provisioning).
-
-**Note:** Ideally the root user should not be able to login remotely, and should not be used directly. Instead per-user
-accounts granted sudo rights should be used.
-
 ## Usage
 
 ### VMware vCentre (BAS Development cluster) (usage)
 
-**Note:** It is assumed a template for the base image you want to use has already been created in your resource pool.
-If not see the [Deployment](#deployment) section for more information.
+**Note:** It is assumed a VMware template for the Packer template you wish to use has already been created in your 
+resource pool. If not see the [Deployment](#deployment) section for more information.
 
 1. login to the [BAS vCentre instance](https://bsv-vcsa-s1.nerc-bas.ac.uk/ui/) with your NERC AD credentials [1]
 2. navigate to the relevant resource pool
@@ -104,29 +107,33 @@ If not see the [Deployment](#deployment) section for more information.
 
 [2] The BAS vCentre instance currently uses a self-signed TLS certificate.
 
-### Checksums
 
-Where an image results in a file artefact, such as an OVA file, a checksum is generated to allow users to verify it 
-hasn't been corrupted or modified outside of this project.
+### Artefact Checksums
+
+Where artefacts produce a file, such as an OVA, a checksum is generated to protect against corruption or modification.
 
 | Template            | Template Version | SHA 256 Checksum                                                   |
 | ------------------- | ---------------- | ------------------------------------------------------------------ |
 | `antarctica/trusty` | `2018-08-10`     | `5ec748ca961f021e6f7f8e8c383d9df1d2ad7796a254fe6001e31e49271ec089` |
 
-## Provisioning
+### Instance Provisioning
 
-This section relates to provisioning instances of these templates, rather than provisioning used to build templates.
+This section describes how to use instances of artefacts built from this project.
 
-### Access
+#### Access
 
-See [Root user](#root-user) for initial access credentials.
+See the [Root user](#root-user) section for initial access credentials.
 
-### Ansible
 
-#### Ansible facts
 
-To aid in provisioning, information about the template used for a virtual machine is made available as custom Ansible 
-[facts](https://docs.ansible.com/ansible/2.5/user_guide/playbooks_variables.html#information-discovered-from-systems-facts).
+
+
+#### Ansible
+
+##### Ansible facts
+
+To aid in provisioning, information about the template artefact instances are created from is made available as 
+[Ansible facts](https://docs.ansible.com/ansible/2.5/user_guide/playbooks_variables.html#information-discovered-from-systems-facts).
 
 These facts report the name and version of the template used.
 
@@ -135,29 +142,21 @@ For example:
 ```
 ok: [host] => {
     "msg": {
-        "name": "antarctica/centos7",
-        "name_alt": "antarctica-centos7",
+        "name": "antarctica-centos7",
         "version": "2018-08-10"
     }
 }
 ```
 
-An example playbook for reporting these facts is available in `usage/ansible/ansible-facts` To use with Docker and 
-Docker Compose:
+An example reporting playbook is available in [usage/ansible/ansible-facts](/usage/ansible/ansible-facts).
 
-1. copy the `usage/ansible/ansible-facts` directory to a temporary location
-2. `cd usage/ansible/ansible-facts`
-3. set `ansible_host` in `inventory.yml` to the hostname of a VM
-4. check your public key is allowed to access the VM and amend the volume for `/root/.ssh/id_rsa` in 
-   `docker-compose.yml`
-5. `docker-compose run ansible`
-6. `ansible-playbook -i inventory.yml -u [username] site.yml`
-7. exit and remove the Ansible container and `ansible-facts` directory
+##### Ansible bootstrap
 
-#### Bootstrap playbook
+An Ansible playbook is available in [usage/ansible/ansible-bootstrap](usage/ansible/ansible-bootstrap) to initially 
+secure instances created from these template artefacts.
 
-An Ansible playbook is available to secure a newly created VM by restricting the root user and creating individual 
-accounts. 
+It creates a set of individual user accounts, with authorised public keys, and disables the 
+[initial access credentials](#root-user). It only needs to be ran once per instance.
 
 **Note:** This playbook only needs to be ran once per VM, and only for non-cloud providers.
 
@@ -205,39 +204,41 @@ users:
 
 ## Setup
 
-To build images for a [template](#supported-operating-systems) run:
+To build artefacts for each provider defined in a Packer template:
 
-```
-packer build -var 'release_version=[version]' definitions/[template].json
-```
-
-The `release_version` variable should be set to the date of building, in the form `YYYY-MM-DD`. E.g.
-
-```
-packer build -var 'release_version=2001-01-20' definitions/antarctica-centos7.json
+```shell
+$ packer build templates/[template].json
+# E.g.
+$ packer build templates/antarctica-centos7.json
 ```
 
-Packer will build base images for each supported [Provider](#supported-providers) in parallel. It will apply any
-[Customisations](#customisations) relevant to each template/provider and prepare it for [Deployment](#deployment).
+Artefacts will be created in parallel, applying any relevant [Customisations](#customisations) ready for 
+[Deployment](#deployment).
 
-For each artefact produced, a SHA 256 checksum will be generated alongside the file. This should be added to the 
-[Checksums](#checksums) section to allow users to verify the artefact hasn't been corrupted or modified.
+If needed, artefacts for a single provider can be built:
 
-**Note:** It will take longer the first time you build a template as Packer needs to download the installation ISO for 
-the OS.
+```
+$ packer build --only=[provider] templates/[template].json
+# E.g.
+$ packer build --only=digitalocean templates/antarctica-centos7.json
+```
+
+For providers which produce artefacts as files, a SHA 256 checksum will be generated. Add this value to the 
+[Checksums](#checksums) section.
+
+**Note:** It will take longer the first time you build a template, as for some providers Packer needs to download the 
+installation ISO for the OS.
 
 ## Deployment
 
-Images for some [Providers](#supported-providers) are made locally and need deploying before they can be used.
+Artefacts for some [Providers](#supported-providers) are built locally and need deploying before they can be used.
 
-**Note:** It is assumed images for a [Template](#supported-operating-systems) have already been produced. If not see 
-the [Setup](#setup) section for more information.
+**Note:** Artefacts for a template should have already been built. If not, see the [Setup](#setup) section.
 
 ### VMware vCentre (BAS Development cluster) (deployment)
 
-The OVA file produced for the provider needs to be uploaded to vCentre and deployed as a virtual machine. This virtual
-machine is then converted into a template, from which additional VMs can be made using the instructions in the 
-[Usage](#usage) section.
+The OVA file produced needs to be uploaded to vCentre and deployed as a virtual machine. This virtual machine is then 
+converted into a template, from which additional VMs can be made using the instructions in the [Usage](#usage) section.
 
 To create a virtual machine from an OVF/OVA file:
 
@@ -268,35 +269,23 @@ To convert a virtual machine into a template:
 
 ## Development
 
-The Packer templates used for each [Operating System](#supported-operating-system) describe, for each
-[Provider](#supported-providers), how to create each image (whether this is building a file, or creating a resource 
-within a clouder provider), these are then customised and packaged ready for [Deployment](#deployment).
-
-The templates used in this project are based on the templates and scripts development by the [Bento](https://github.com/opscode/bento) project. Bento offers a comprehensive range of operating systems and providers, 
-creating vanilla, minimal images.
+The Packer templates used in this project are based on the templates and provisioning scripts development by the 
+[Bento](https://github.com/opscode/bento) project. Bento supports a comprehensive range of operating systems and 
+providers, creating vanilla, minimal images.
 
 This project uses these templates and scripts as a stable foundation on which some elements are removed and others 
 added in the form of [Customisations](#customisations).
-
-* templates are kept in `definitions`, each template has *builders* for all supported providers
-* various *provisioning* scripts from `provisioning/scripts` are used to apply customisations
-* *builders* which produce artefacts output to a format-template directory within `artefacts`
-* various *post-provisioning* scripts from `artefacts/scripts` are used to package artefacts for deployment
 
 ### Provisioning/Post-processing scripts
 
 The scripts used for provisioning and post-provisioning are organised in the following structure:
 
-* `scripts` - all scripts
-    * `scripts/common` - scripts relevant to all operating systems
-        * `scripts/common[environment]` - scripts relevant to a specific class of provider (e.g. `scripts/desktop`)
-    * `scripts/[os]` - scripts relevant to a specific operating system (e.g. `scripts/centos`)
-        * `scripts/[os]/[environment]` - see `scripts/common/[environment]`
-
-Scripts are intentionally organised by OS not template as there may be multiple scripts based on the same OS and 
-typically the only differences are in one or two scripts.
-
-Currently only two provider classes are supported, *cloud* and *desktop* (which for this includes all VMware products).
+* `provisioning/scripts/` - all scripts
+    * `common/` - scripts relevant to all distributions and providers
+        * `common/` - scripts relevant to all distributions and providers
+        * `[provider type]/` - scripts relevant to a specific type of provider (e.g. `desktop`)
+    * `[distribution]/` - scripts relevant to a specific operating system (e.g. `scripts/centos`)
+        * `[distribution]/{common|[environment]}/` - e.g. `scripts/centos/desktop`
 
 Most scripts are copies, or adapted from, scripts used in the [Bento](https://github.com/opscode/bento) project. The
 source of each script, or sections of a script, should indicate where it has come from (i.e. 'Bento' or 'Custom'). The
