@@ -2,7 +2,7 @@
   "builders": [
     {
       "boot_command": [
-        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `artefact_alt`}}/ks.cfg<enter><wait>"
+        "<up><wait><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `template`}}/ks.cfg<enter><wait>"
       ],
       "boot_wait": "10s",
       "disk_size": "{{user `disk_size`}}",
@@ -13,14 +13,14 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
-      "output_directory": "artefacts/ovas/{{user `artefact_alt`}}-vmware-iso",
+      "output_directory": "artefacts/ovas/{{user `template`}}-vmware-iso",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "password",
       "ssh_port": 22,
       "ssh_username": "root",
       "ssh_wait_timeout": "10000s",
       "type": "vmware-iso",
-      "vm_name": "{{ user `artefact_alt` }}",
+      "vm_name": "{{ user `template` }}",
       "vmx_data": {
         "cpuid.coresPerSocket": "1",
         "memsize": "{{ user `memory` }}",
@@ -34,7 +34,7 @@
       "private_networking": true,
       "region": "{{ user `do_region` }}",
       "size": "{{ user `do_size` }}",
-      "snapshot_name": "{{user `artefact_alt`}}-{{isotime \"2006-01-02\"}}",
+      "snapshot_name": "{{user `template`}}-{{isotime \"2006-01-02\"}}",
       "ssh_username": "root",
       "type": "digitalocean"
     }
@@ -42,7 +42,7 @@
   "post-processors": [
     {
       "environment_vars": [
-        "INPUT={{user `artefact_alt`}}"
+        "INPUT={{user `template`}}"
       ],
       "only": ["vmware-iso"],
       "scripts": [
@@ -57,8 +57,7 @@
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
         "no_proxy={{user `no_proxy`}}",
-        "TEMPLATE_NAME={{user `artefact`}}",
-        "TEMPLATE_NAME_ALT={{user `artefact_alt`}}",
+        "TEMPLATE_NAME={{user `template`}}",
         "TEMPLATE_VERSION={{isotime \"2006-01-02\"}}"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
@@ -113,8 +112,7 @@
     }
   ],
   "variables": {
-    "artefact": "antarctica/centos7",
-    "artefact_alt": "antarctica-centos7",
+    "template": "antarctica-centos7",
     "cpus": "1",
     "disk_size": "65536",
     "do_image": "centos-7-x64",
