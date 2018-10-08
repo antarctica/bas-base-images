@@ -189,6 +189,9 @@ To use with Docker and Docker Compose:
 7. `ansible-playbook -i inventory.yml site.yml`
 8. exit and remove the Ansible container and `bootstrap` directory
 
+**Note:** You may need to restart each configured VM through the 
+[BAS vCentre instance](https://bsv-vcsa-s1.nerc-bas.ac.uk/ui/) for the DHCP hostname to resolve correctly.
+
 [1]
 
 | Option               | Data Type        | Description                               | Notes                                    |
