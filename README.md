@@ -45,23 +45,24 @@ Typically customisations are made in groups and thus share a version.
 | Template           | Since Version | Category | Customisation                      | Rational                                                          |
 | ------------------ | ------------- | -------- | ---------------------------------- | ----------------------------------------------------------------- |
 | antarctica-centos7 | *2018-08-10*  | System   | Swap file removed                  | Swap will be recreated for each instance if needed                |
-| antarctica/centos7 | *2018-08-10*  | System   | Network interfaces removed         | From Bento project                                                |
-| antarctica/centos7 | *2018-08-10*  | Security | SELinux disabled                   | BAS convention, see [Security](#security)                         |
-| antarctica/centos7 | *2018-08-10*  | Security | Firewall disabled                  | BAS convention, see [Security](#security)                         |
-| antarctica/centos7 | *2018-08-10*  | SSH      | `UseDNS` set to `no`               | From Bento project                                                |
-| antarctica/centos7 | *2018-08-10*  | SSH      | `GSSAPIAuthentication` set to `no` | From Bento project                                                |
-| antarctica/centos7 | *2018-08-10*  | SSH      | Host keys removed                  | Keys will be recreated for each instance                          |
-| antarctica/centos7 | *2018-08-10*  | Sudo     | Passwordless sudo enabled          | To allow for automated provisioning                               |
-| antarctica/centos7 | *2018-08-10*  | Sudo     | SSH Agent allowed using Sudo       | To allow connecting through other hosts using private keys        |
-| antarctica/centos7 | *2018-08-10*  | Locale   | Language set to `en_GB_UTF-8`      | Regional default                                                  |
-| antarctica/centos7 | *2018-08-10*  | Locale   | Keyboard layout set to `uk`        | Regional default                                                  |
-| antarctica/centos7 | *2018-08-10*  | Locale   | Timezone set to `UTC`              | Regional default and BAS convention                               |
-| antarctica/centos7 | *2018-08-10*  | Users    | Root user password                 | To allow for automated provisioning, see [Security](#security)    |
-| antarctica/centos7 | *2018-08-10*  | Users    | Root user authorized key           | To allow for automated provisioning, see [Security](#security)    |
-| antarctica/centos7 | *2018-08-10*  | Packages | Yum upgrade                        | To update all OS packages to latest versions                      |
-| antarctica/centos7 | *2018-08-10*  | Packages | Yum clean                          | To reduce size of artefacts removing unnecessary files and caches |
-| antarctica/centos7 | *2018-08-10*  | Packages | `sudo`, `wget` installed           | Required for installation                                         |
-| antarctica/centos7 | *2018-08-10*  | Usage    | Ansible facts                      | For automated provisioning, see [Ansible facts](#ansible-facts)   |
+| antarctica-centos7 | *2018-08-10*  | System   | Network interfaces removed         | From Bento project                                                |
+| antarctica-centos7 | *2018-08-10*  | Security | SELinux disabled                   | BAS convention, see [Security](#security)                         |
+| antarctica-centos7 | *2018-08-10*  | Security | Firewall disabled                  | BAS convention, see [Security](#security)                         |
+| antarctica-centos7 | *2018-08-10*  | SSH      | `UseDNS` set to `no`               | From Bento project                                                |
+| antarctica-centos7 | *2018-08-10*  | SSH      | `GSSAPIAuthentication` set to `no` | From Bento project                                                |
+| antarctica-centos7 | *2018-08-10*  | SSH      | Host keys removed                  | Keys will be recreated for each instance                          |
+| antarctica-centos7 | *2018-08-10*  | Sudo     | Passwordless sudo enabled          | To allow for automated provisioning                               |
+| antarctica-centos7 | *2018-08-10*  | Sudo     | SSH Agent allowed using Sudo       | To allow connecting through other hosts using private keys        |
+| antarctica-centos7 | *2018-08-10*  | Locale   | Language set to `en_GB_UTF-8`      | Regional default                                                  |
+| antarctica-centos7 | *2018-08-10*  | Locale   | Keyboard layout set to `uk`        | Regional default                                                  |
+| antarctica-centos7 | *2018-08-10*  | Locale   | Timezone set to `UTC`              | Regional default and BAS convention                               |
+| antarctica-centos7 | *2018-08-10*  | Users    | Root user password                 | To allow for automated provisioning, see [Security](#security)    |
+| antarctica-centos7 | *2018-08-10*  | Users    | Root user authorized key           | To allow for automated provisioning, see [Security](#security)    |
+| antarctica-centos7 | *2018-08-10*  | Packages | Yum upgrade                        | To update all OS packages to latest versions                      |
+| antarctica-centos7 | *2018-08-10*  | Packages | Yum clean                          | To reduce size of artefacts removing unnecessary files and caches |
+| antarctica-centos7 | *2018-08-10*  | Packages | `sudo`, `wget` installed           | Required for installation                                         |
+| antarctica-centos7 | *2018-08-10*  | Usage    | Ansible facts                      | For automated provisioning, see [Ansible facts](#ansible-facts)   |
+| antarctica-centos7 | *2018-10-08*  | Security | SELinux (properly) disabled        | Fixing a bug in previous version                                  |
 
 ### Security
 
@@ -188,6 +189,9 @@ To use with Docker and Docker Compose:
 6. `docker-compose run ansible`
 7. `ansible-playbook -i inventory.yml site.yml`
 8. exit and remove the Ansible container and `bootstrap` directory
+
+**Note:** You may need to restart each configured VM through the 
+[BAS vCentre instance](https://bsv-vcsa-s1.nerc-bas.ac.uk/ui/) for the DHCP hostname to resolve correctly.
 
 [1]
 
