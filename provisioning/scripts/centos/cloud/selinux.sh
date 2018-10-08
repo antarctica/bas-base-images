@@ -3,3 +3,5 @@
 
 # Set SELinux mode to 'disabled'
 sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/sysconfig/selinux;
+sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config;
+shutdown -r now;

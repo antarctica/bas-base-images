@@ -62,6 +62,7 @@ Typically customisations are made in groups and thus share a version.
 | antarctica-centos7 | *2018-08-10*  | Packages | Yum clean                          | To reduce size of artefacts removing unnecessary files and caches |
 | antarctica-centos7 | *2018-08-10*  | Packages | `sudo`, `wget` installed           | Required for installation                                         |
 | antarctica-centos7 | *2018-08-10*  | Usage    | Ansible facts                      | For automated provisioning, see [Ansible facts](#ansible-facts)   |
+| antarctica-centos7 | *2018-10-08*  | Security | SELinux (properly) disabled        | Fixing a bug in previous version                                  |
 
 ### Security
 
