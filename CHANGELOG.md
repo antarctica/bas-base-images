@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 * Correctly disabling SE Linux in the `antarctica-centos7` Digital Ocean image
 * Update template and provisioning scripts to remove 'artefact' and 'artefact_alt' identifiers in favour of a single 
   'template' identifier
+* Pinning Packer version in CI
 
 ### Changed
 
