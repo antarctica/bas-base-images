@@ -9,11 +9,11 @@
       "disk_type_id": "0",
       "guest_os_type": "centos-64",
       "headless": "{{ user `headless` }}",
-      "http_directory": "preseed",
+      "http_directory": "packer/provisioning/preseed",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
-      "output_directory": "artefacts/ovas/{{user `template`}}-vmware-iso",
+      "output_directory": "packer/artefacts/ovas/{{user `template`}}-vmware-iso",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "ssh_password": "password",
       "ssh_port": 22,
@@ -21,11 +21,6 @@
       "ssh_wait_timeout": "10000s",
       "type": "vmware-iso",
       "vm_name": "{{ user `template` }}",
-      "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "{{ user `memory` }}",
-        "numvcpus": "{{ user `cpus` }}"
-      },
       "vmx_remove_ethernet_interfaces": true
     },
     {
@@ -46,7 +41,7 @@
       ],
       "only": ["vmware-iso"],
       "scripts": [
-        "artefacts/scripts/common/desktop/vmware-ova.sh"
+        "packer/artefacts/scripts/common/desktop/vmware-ova.sh"
       ],
       "type": "shell-local"
     }
@@ -63,11 +58,10 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "provisioning/scripts/centos/common/update.sh",
-        "provisioning/scripts/common/common/sshd.sh",
-        "provisioning/scripts/centos/common/sudoers.sh",
-        "provisioning/scripts/common/common/sudoers.sh",
-        "provisioning/scripts/common/common/metadata.sh"
+        "packer/provisioning/scripts/centos/common/update.sh",
+        "packer/provisioning/scripts/common/common/sshd.sh",
+        "packer/provisioning/scripts/common/common/ssh-agent.sh",
+        "packer/provisioning/scripts/common/common/metadata.sh"
       ],
       "type": "shell"
     },
@@ -81,8 +75,9 @@
       "expect_disconnect": true,
       "only": ["vmware-iso"],
       "scripts": [
-        "provisioning/scripts/common/desktop/root-public-key.sh",
-        "provisioning/scripts/common/desktop/minimise.sh"
+        "packer/provisioning/scripts/centos/desktop/cloud-init.sh",
+        "packer/provisioning/scripts/common/desktop/minimise.sh",
+        "packer/provisioning/scripts/centos/desktop/cleanup.sh"
       ],
       "type": "shell"
     },
@@ -91,8 +86,8 @@
       "expect_disconnect": true,
       "only": ["digitalocean"],
       "scripts": [
-        "provisioning/scripts/centos/cloud/locale.sh",
-        "provisioning/scripts/centos/cloud/selinux.sh"
+        "packer/provisioning/scripts/centos/cloud/locale.sh",
+        "packer/provisioning/scripts/centos/cloud/selinux.sh"
       ],
       "type": "shell"
     },
@@ -105,15 +100,15 @@
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "expect_disconnect": true,
       "scripts": [
-        "provisioning/scripts/common/common/remove-host-keys.sh",
-        "provisioning/scripts/centos/common/cleanup.sh"
+        "packer/provisioning/scripts/common/common/remove-host-keys.sh",
+        "packer/provisioning/scripts/centos/common/cleanup.sh",
+        "packer/provisioning/scripts/common/common/lock-root-account.sh"
       ],
       "type": "shell"
     }
   ],
   "variables": {
     "template": "antarctica-centos7",
-    "cpus": "1",
     "disk_size": "65536",
     "do_image": "centos-7-x64",
     "do_region": "lon1",
@@ -121,12 +116,11 @@
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
     "https_proxy": "{{env `https_proxy`}}",
-    "iso_checksum": "506e4e06abf778c3435b4e5745df13e79ebfc86565d7ea1e128067ef6b5a6345",
+    "iso_checksum": "659691c28a0e672558b003d223f83938f254b39875ee7559d1a4a14c79173193",
     "iso_checksum_type": "sha256",
-    "iso_name": "CentOS-7-x86_64-DVD-1804.iso",
-    "memory": "1024",
+    "iso_name": "CentOS-7-x86_64-Minimal-2003.iso",
     "mirror": "http://mirrors.kernel.org/centos",
-    "mirror_directory": "7.5.1804/isos/x86_64",
+    "mirror_directory": "7.8.2003/isos/x86_64",
     "name": "centos-7.5",
     "no_proxy": "{{env `no_proxy`}}"
   }

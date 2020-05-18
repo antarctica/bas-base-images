@@ -16,4 +16,4 @@ lint-definitions:
   variables:
     DIGITALOCEAN_API_TOKEN: xxx
   script:
-    - "packer validate templates/antarctica-centos7.json"
+    - "packer validate packer/templates/antarctica-centos7.json"

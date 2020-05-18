@@ -1,4 +1,6 @@
-packer_cache
-artefacts/ovas
-artefacts/vagrant-base-boxes/base-boxes
-/terraform_remote_state/.terraform
+/packer_cache
+/packer/artefacts/ovas
+/packer/artefacts/vagrant-base-boxes/base-boxes
+/provisioning/terraform/.terraform
+*.ova
+terraform.tfvars
