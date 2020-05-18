@@ -1,6 +1,0 @@
----
-
-hostname: hostname
-hostname_fqdn: "{{ hostname }}.nerc-bas.ac.uk"
-
-users: []

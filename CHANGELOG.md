@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 * Passwordless sudo removed from all providers of the `antarctica-centos7` image
 * `wget` removed as a default package in desktop providers of the `antarctica-centos7` image
 * Ansible facts playbook, an example task and output have been added to the README
+* Ansible bootstrap playbook, cloud-init can and should now be used for this
 
 ### Changed [BREAKING!]
 
