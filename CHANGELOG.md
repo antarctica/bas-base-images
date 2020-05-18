@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 * Vagrant insecure key removed from desktop providers of the `antarctica-centos7` image
 * Passwordless sudo removed from all providers of the `antarctica-centos7` image
 * `wget` removed as a default package in desktop providers of the `antarctica-centos7` image
+* Ansible facts playbook, an example task and output have been added to the README
 
 ### Changed [BREAKING!]
 

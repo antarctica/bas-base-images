@@ -1,7 +1,0 @@
----
-
-- name: report facts about base image
-  hosts: host
-  tasks:
-    - debug:
-        msg: "{{ ansible_local.os_template.general }}"
