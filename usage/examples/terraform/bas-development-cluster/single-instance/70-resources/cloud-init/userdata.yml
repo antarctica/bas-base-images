@@ -1,0 +1,11 @@
+#cloud-config
+
+users:
+    - name: conwat
+      primary_group: conwat
+      sudo: ALL=(ALL) NOPASSWD:ALL
+      groups: sudo, wheel
+      ssh_import_id: None
+      lock_passwd: true
+      ssh_authorized_keys:
+        - ssh-rsa AAAAB...946x conwat@bas.ac.uk

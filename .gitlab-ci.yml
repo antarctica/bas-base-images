@@ -11,9 +11,9 @@ variables:
 lint-definitions:
   stage: lint
   image:
-    name: hashicorp/packer
+    name: hashicorp/packer:1.5.6
     entrypoint: [""]
   variables:
     DIGITALOCEAN_API_TOKEN: xxx
   script:
-    - "packer validate templates/antarctica-centos7.json"
+    - "packer validate packer/templates/antarctica-centos7.json"
