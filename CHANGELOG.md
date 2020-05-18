@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Added
 
 * Cloud-init with the VMware guest information provider added to desktop providers of the `antarctica-centos7` image
+* Terraform remote state for tracking references to desktop artefacts for use in downstream projects
 
 ### Fixed
 
