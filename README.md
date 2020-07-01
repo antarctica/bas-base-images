@@ -89,6 +89,9 @@ Artefacts for desktop providers can be downloaded from the BAS Repo Server:
 
 http://bsl-repoa.nerc-bas.ac.uk/magic/v1/projects/bas-base-images/artefacts/antarctica-centos7
 
+**Note:** Artefacts for older versions of this template can be found on the BAS SAN at: `/data/softwaredist/packages/prod`. 
+These older versions are unsupported and may be removed permanently in future.
+
 ## Supported providers
 
 | Provider     | Type    | Artefact Type                                                        | Packer Builder |

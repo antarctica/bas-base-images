@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 
 ## [Unreleased][unreleased]
 
+### Added
+
+* link to older artefact versions of the `antarctica-centos` and previous `antarctica-trusty` image
+
 ## 0.2.0 (2020-05-18)
 
 ### Removed [BRAKING!]
