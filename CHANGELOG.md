@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Added
 
 * link to older artefact versions of the `antarctica-centos` and previous `antarctica-trusty` image
+* added minimum recommended resources for CPU and RAM for VMs deployed to the BAS development cluster
 
 ## 0.2.0 (2020-05-18)
 

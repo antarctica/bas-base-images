@@ -28,8 +28,8 @@ resource "vsphere_virtual_machine" "example" {
   resource_pool_id     = data.vsphere_resource_pool.pool.id
   datastore_cluster_id = data.vsphere_datastore_cluster.datastore_cluster.id
 
-  num_cpus  = 1
-  memory    = 1024
+  num_cpus  = 2
+  memory    = 2048
   guest_id  = data.vsphere_virtual_machine.template.guest_id
   scsi_type = data.vsphere_virtual_machine.template.scsi_type
 
