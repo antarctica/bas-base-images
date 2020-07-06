@@ -136,9 +136,10 @@ insecure defaults below, as accounts could not be created securely ahead of time
 
 ### Overview
 
-From `antarctica-centos7`, version `2020-05-18`, the recommend way to use this base image is with
-[Terraform](https://www.terraform.io) and [cloud-init](https://cloudinit.readthedocs.io/en/18.5/). This allows you to
-automate creating, and initially configuring, one or more virtual machines using a [Supported distribution](#supported-distribution) with a [Supported provider](#supported-provider).
+Starting with version `2020-05-18` of the `antarctica-centos7` template, the recommend way to use this base image is 
+with [Terraform](https://www.terraform.io) and [cloud-init](https://cloudinit.readthedocs.io/en/18.5/). This allows 
+you to automate creating, and initially configuring, one or more virtual machines using a 
+[Supported distribution](#supported-distribution) with a [Supported provider](#supported-provider).
 
 **Note:** Terraform is not required to use base images from this project, you can use VMware's or DigitalOcean's online
 consoles instead, however Terraform is useful for creating related infrastructure such as DNS records and for managing
@@ -182,6 +183,15 @@ See [usage/examples/terraform/bas-development-cluster](/usage/examples/terraform
 You can also use the [vCentre console](https://bsv-vcsa-s1.nerc-bas.ac.uk/ui/) to view and manage VMs manually if needed [1].
 
 [1] The BAS vCentre instance currently uses a self-signed TLS certificate.
+
+#### Recommended resources
+
+Virtual machines in the development cluster should be assigned these resources as a minium:
+
+* CPU: 2 vCPUs
+* RAM: 2GB
+
+It is possible to assign fewer resources than this, however we may encounter strange issues if you do.
 
 ### DigitalOcean
 
@@ -333,6 +343,8 @@ To create a virtual machine from an OVF/OVA file:
 vCentre will now upload and create a Virtual Machine from the OVA image, this will take some time. Once complete:
 
 1. select the new virtual machine, from *ACTIONS* choose *Edit settings*:
+    * set the number of CPUs to *2*
+    * set the amount of RAM to *2GB*
     * remove the CD-ROM device
     * choose *ADD NEW DEVICE* -> *Network Adapter* and browse for the `DEV Network` network
 2. upgrade the VM compatibility to the highest/newest available
